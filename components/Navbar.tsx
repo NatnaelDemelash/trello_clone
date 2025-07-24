@@ -1,12 +1,34 @@
 'use client';
 
-import { SignInButton, SignUpButton, useUser } from '@clerk/nextjs';
+import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 import { ArrowRight, Trello } from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const { isSignedIn, user } = useUser();
+  const pathName = usePathname();
+
+  const isDahshboardPage = pathName === '/dashboard';
+  const isBoardPage = pathName.startsWith('/board/');
+
+  if (isDahshboardPage) {
+    return (
+      <header className="border-b border-b-gray-50 backdrop-blur-sm shadow-sm bg-white/100 sticky z-50 top-0">
+        <div className="container mx-auto px-4 py-3 sm:py-4 flex items-center justify-between ">
+          <div className="flex space-x-2 items-center">
+            <Trello className="h-4 w-4 sm:h-6 sm:w-6" />
+            <span className="font-semibold text-gray-900 sm:text-xl">
+              Kanbana
+            </span>
+          </div>
+
+          <UserButton />
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="border-b border-b-gray-50 backdrop-blur-sm shadow-sm bg-white/100 sticky z-50 top-0">
